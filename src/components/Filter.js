@@ -39,7 +39,7 @@ const Filter = () => {
 
 
     return (
-        <div className='flex flex-col md:flex-row  items-start md:items-center justify-between w-full p-2 md:p-4'>
+        <div className='flex flex-row  items-start md:items-center justify-between w-full p-2 md:p-4'>
             <div className="flex items-center gap-x-2 flex-1">
                 <SelectBox options={category} selected={selectCategory} setSelected={setSelectCategory} />
             </div>
