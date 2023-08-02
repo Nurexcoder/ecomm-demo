@@ -50,7 +50,7 @@ const Filter = () => {
         <div className='flex flex-col md:flex-row  items-start md:items-center justify-between w-full p-2 md:p-4'>
             <div className="flex items-center gap-x-2 flex-1">
                 <SelectBox options={category} selected={selectCategory} setSelected={setSelectCategory} />
-                <SelectBox options={price} setSelected={handlePriceRangeChange} selected={selectPrice} />
+                {/* <SelectBox options={price} setSelected={handlePriceRangeChange} selected={selectPrice} /> */}
             </div>
             <div className="flex items-center gap-x-2 flex-1 justify-end">
                 <SelectBox options={sortBy} selected={selectedSortBy} setSelected={handleSortChange} />
