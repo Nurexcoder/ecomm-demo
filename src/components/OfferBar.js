@@ -11,13 +11,13 @@ const OfferBar = () => {
                     <IoMdCall />
                     +91 999999999
                 </a>
-                <div className="flex items-center text-center flex-1 justify-center">
+                <div className="flex items-center text-end md:text-center flex-1 justify-end md:justify-center">
                     <h1>
 
                         Get 50% off | Shop Now
                     </h1>
                 </div>
-                <div className="flex items-center flex-1 justify-end">
+                <div className="hidden items-center flex-1 justify-end md:flex">
                     EN <feDropShadow />
                 </div>
             </div>
