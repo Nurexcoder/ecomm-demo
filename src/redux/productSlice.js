@@ -92,7 +92,7 @@ const productSlice = createSlice({
             }).addCase(setPriceRange, (state, action) => {
                 // Call the fetchProducts action when the price range changes
                 state.products = []; // Clear the products array
-                dispatch(fetchProducts()); // Dispatch the fetchProducts action
+                // dispatch(fetchProducts()); // Dispatch the fetchProducts action
             });
     },
 });
