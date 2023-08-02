@@ -21,15 +21,15 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ()
     return newResponse;
 });
 
-export const fetchCategoryProducts = createAsyncThunk('products/fetchProducts/category', async (category) => {
-    if (category === 'Category (all)') {
+// export const fetchCategoryProducts = createAsyncThunk('products/fetchProducts/category', async (category) => {
+//     if (category === 'Category (all)') {
 
-        const response = await axios.get('https://fakestoreapi.com/products');
-        return response.data
-    }
-    const response = await axios.get('https://fakestoreapi.com/products/category/' + category);
-    return response.data;
-});
+//         return []
+//     }
+    
+//     const response = await axios.get('https://fakestoreapi.com/products/category/' + category);
+//     return response.data;
+// });
 
 
 
@@ -37,6 +37,12 @@ const productSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
+        getProductsByCategory: (state, action) => {
+            const { category } = action.payload;
+            console.log(category)
+            state.filteredProducts = state.products.filter((product) => product.category === category)
+
+        },
         setProductWishlistStatus: (state, action) => {
             const { productId, isWishlisted } = action.payload;
             state.products = state.products.map((product) =>
@@ -44,24 +50,14 @@ const productSlice = createSlice({
             );
             return state
         },
-        setPriceRange: (state, action) => {
-
-            const { min, max } = action.payload
-            console.log(max)
-            state.filteredProducts = state.filteredProducts.length ? state.filteredProducts : [...state.products]
-
-            state.filteredProducts = state.filteredProducts.filter((product) => {
-                console.log(product.price >= min &&max !== undefined ? (product.price <= max) : true)
-                return product.price >= min && (max !== undefined ? (product.price <= max) : true)
-            })
-        },
         sortProductByPrice: (state, action) => {
             const { sort } = action.payload
             console.log(sort)
+            state.filteredProducts = state.filteredProducts.length ? state.filteredProducts : [...state.products]
             if (sort == 'Low to High') {
+
                 state.filteredProducts = state.filteredProducts.sort((a, b) => a.price - b.price)
             } else if (sort == 'High to Low') {
-                state.filteredProducts = state.filteredProducts.length ? state.filteredProducts : [...state.products]
                 state.filteredProducts = state.filteredProducts.sort((a, b) => b.price - a.price)
             }
             else {
@@ -83,19 +79,7 @@ const productSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            .addCase(fetchCategoryProducts.pending, (state) => {
-                state.status = 'loading';
-                state.error = 'error';
-            })
-            .addCase(fetchCategoryProducts.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.products = action.payload;
-            })
-            .addCase(fetchCategoryProducts.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
     },
 });
-export const { setProductWishlistStatus, setPriceRange, sortProductByPrice } = productSlice.actions;
+export const { setProductWishlistStatus,getProductsByCategory, sortProductByPrice } = productSlice.actions;
 export default productSlice.reducer;

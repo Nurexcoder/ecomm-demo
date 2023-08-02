@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import SelectBox from './custom/SelectBox'
 import { useDispatch } from 'react-redux';
-import { fetchCategoryProducts, setPriceRange, sortProductByPrice } from '../redux/productSlice';
+import {  getProductsByCategory, sortProductByPrice } from '../redux/productSlice';
 
 const Filter = () => {
     const dispatch = useDispatch();
@@ -21,36 +21,27 @@ const Filter = () => {
 
     ])
     const [selectedSortBy, setSelectedSortBy] = useState(sortBy[0])
-    const [price, setPrice] = useState([
-        { name: 'Price (All)' },
-        { name: '$0-$50' },
-        { name: '$50-$100' },
-        { name: '$100   +' },
-    ])
-    const [selectPrice, setSelectPrice] = useState(price[0])
+    const handleSortChange = (value) => {
 
+        setSelectedSortBy(value)
+        dispatch(sortProductByPrice({ sort: value?.name }))
+    }
     useEffect(() => {
         // if (selectCategory?.name !== 'Category (all)') {
-            dispatch(fetchCategoryProducts(selectCategory?.name))
+        dispatch(getProductsByCategory({ category: selectCategory?.name}))
         // }
+        if (selectedSortBy?.name !== 'Sort By') {
+            handleSortChange(selectedSortBy)
+        }
     }, [selectCategory])
-    const handlePriceRangeChange = (value) => {
-        setSelectPrice(value)
-        const minMax = value?.name?.split('-')?.map((x) => parseInt(x.slice(1)))
-        console.log(minMax)
-        dispatch(setPriceRange(minMax.length === 2 ? { min: minMax[0], max: minMax[1] } : { min: minMax[0] }))
-    }
 
-    const handleSortChange = (value) => {
-        setSelectedSortBy(value)
-        dispatch(sortProductByPrice({sort:value?.name}))
-    }
+
+
 
     return (
         <div className='flex flex-col md:flex-row  items-start md:items-center justify-between w-full p-2 md:p-4'>
             <div className="flex items-center gap-x-2 flex-1">
                 <SelectBox options={category} selected={selectCategory} setSelected={setSelectCategory} />
-                {/* <SelectBox options={price} setSelected={handlePriceRangeChange} selected={selectPrice} /> */}
             </div>
             <div className="flex items-center gap-x-2 flex-1 justify-end">
                 <SelectBox options={sortBy} selected={selectedSortBy} setSelected={handleSortChange} />
