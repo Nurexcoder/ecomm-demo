@@ -8,7 +8,7 @@ const Products = () => {
     const products = useSelector((state) => state.products.products);
     const filteredProducts = useSelector((state) => state.products.filteredProducts);
     const status = useSelector((state) => state.products.status);
-    console.log(products)
+    console.log(filteredProducts)
     useEffect(() => {
         if(!products.length)
             dispatch(fetchProducts());

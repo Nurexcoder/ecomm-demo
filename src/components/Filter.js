@@ -30,9 +30,9 @@ const Filter = () => {
     const [selectPrice, setSelectPrice] = useState(price[0])
 
     useEffect(() => {
-        if (selectCategory?.name !== 'Category (all)') {
+        // if (selectCategory?.name !== 'Category (all)') {
             dispatch(fetchCategoryProducts(selectCategory?.name))
-        }
+        // }
     }, [selectCategory])
     const handlePriceRangeChange = (value) => {
         setSelectPrice(value)
