@@ -8,8 +8,10 @@ const Products = () => {
     const products = useSelector((state) => state.products.products);
     const filteredProducts = useSelector((state) => state.products.filteredProducts);
     const status = useSelector((state) => state.products.status);
+    console.log(products)
     useEffect(() => {
-        dispatch(fetchProducts());
+        if(!products.length)
+            dispatch(fetchProducts());
     }, [dispatch]);
     // const getProducts = async () => {
     //     const res = await fetch('https://fakestoreapi.com/products')

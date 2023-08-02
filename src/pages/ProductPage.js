@@ -4,10 +4,13 @@ import { CiDeliveryTruck } from 'react-icons/ci'
 import { AiOutlineInbox } from 'react-icons/ai'
 import { useParams } from 'react-router-dom'
 import ReadMore from '../components/custom/ReadMore'
+import { useDispatch } from 'react-redux'
+import { addItemToCart } from '../redux/cartSlice'
 const ProductPage = () => {
     const { id } = useParams();
     const [product, setProduct] = useState()
-
+    const [counter, setCounter] = useState(1)
+    const dispatch = useDispatch()
     const getProduct = async () => {
         const res = await fetch(`https://fakestoreapi.com/products/${id}`)
         const data = await res.json()
@@ -17,10 +20,22 @@ const ProductPage = () => {
     useEffect(() => {
         getProduct()
     }, [])
-
+    const handleCounterChange = (isDesc) => {
+        if (isDesc && counter > 1) {
+            setCounter(prevCounter => prevCounter - 1)
+        }
+        else if (!isDesc) {
+            setCounter(prevCounter => prevCounter + 1)
+        }
+    }
     if (!product)
         return <h1>Loading...</h1>
 
+    const handleAddToCart = () => {
+        const tempProduct = product
+        tempProduct.quantity = counter
+        dispatch(addItemToCart(tempProduct))
+    }
     return (
         <div className='flex flex-col md:flex-row justify-between items-center md:items-start p-4 gap-x-10'>
             <div className="flex-1 flex items-center justify-center bg-[#f5f6f6] p-2">
@@ -50,14 +65,14 @@ const ProductPage = () => {
                 </div>
                 <div className="flex items-center gap-x-5">
                     <div className="p-1 bg-[#f5f6f6] rounded-full flex  items-center text-xl">
-                        <button className='px-3 py-1 rounded-l-full'>
+                        <button className='px-3 py-1 rounded-l-full' onClick={() => handleCounterChange(true)}>
                             -
                         </button>
                         <span className='px-3'>
 
-                            {1}
+                            {counter}
                         </span>
-                        <button className='px-3 py-1 rounded-r-full'>
+                        <button className='px-3 py-1 rounded-r-full' onClick={() => handleCounterChange(false)}>
                             +
                         </button>
                     </div>
@@ -67,7 +82,7 @@ const ProductPage = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-x-5">
-                    <button className='bg-green-900 text-white px-8 py-2 rounded-full hover:bg-green-700 transition'>Add to Cart</button>
+                    <button className='bg-green-900 text-white px-8 py-2 rounded-full hover:bg-green-700 transition' onClick={handleAddToCart}>Add to Cart</button>
                     <button className='bg-white text-black border-green-900 border px-8 py-2 rounded-full hover:bg-green-700 hover:text-white transition'>Buy Now</button>
                 </div>
                 <div className="flex items-start gap-5">

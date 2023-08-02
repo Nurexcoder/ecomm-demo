@@ -3,20 +3,22 @@ import { AiFillShop, AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/
 import { BsFillPersonFill } from 'react-icons/bs'
 import { IoIosArrowDropdown } from 'react-icons/io'
 import { Badge, Box } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 const Navbar = () => {
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     const cartLenght = useSelector((state) => state.cart.totalQuantity)
-    console.log(cartLenght)
     return (
         <div className='w-full min-h-[60px] flex items-start justify-between px-4 py-4 max-w-[1300px] mx-auto'>
             <div className="flex items-center gap-x-8">
+                <Link to='/'>
 
-                <div className='flex items-center gap-x-2'>
-                    <AiFillShop className='text-4xl text-green-900' />
-                    <h1 className='text-2xl font-medium text-green-900'>Jabardast Dukan</h1>
-                </div>
+                    <div className='flex items-center gap-x-2'>
+                        <AiFillShop className='text-4xl text-green-900' />
+                        <h1 className='text-2xl font-medium text-green-900'>Jabardast Dukan</h1>
+                    </div>
+                </Link>
                 <ul className='hidden md:flex gap-x-5 items-end'>
                     <li className='text-base font-medium cursor-pointer hover:scale-105 flex items-center gap-x-2'>
                         <IoIosArrowDropdown />
@@ -26,9 +28,9 @@ const Navbar = () => {
                         </span>
                     </li>
                     <li className='text-base font-medium cursor-pointer hover:scale-105'>
-                        <Link to='/deals'>
+                        <Link to='/wishlist'>
 
-                            Deals
+                            WishList
                         </Link>
                     </li>
                     <li className='text-base font-medium cursor-pointer hover:scale-105'>
@@ -47,14 +49,19 @@ const Navbar = () => {
                 </div>
                 <div className="flex items-center gap-x-2 text-lg cursor-pointer">
                     <BsFillPersonFill className='text-xl' />
-                    Account
+                    <span className='hidden md:inline'>
+
+                        Account
+                    </span>
                 </div>
 
-                <Box className="flex items-center gap-x-2 text-lg cursor-pointer">
+                <Box className="flex items-center gap-x-2 text-lg cursor-pointer" onClick={()=>navigate('/cart')}>
                     <Badge badgeContent={cartLenght} color="primary">
                         <AiOutlineShoppingCart className='text-xl' />
                     </Badge>
-                    Cart
+                    <span className='hidden md:inline'>
+                        Cart
+                    </span>
                 </Box>
             </div>
         </div>

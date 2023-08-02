@@ -5,31 +5,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist, removeFromWishlist } from '../../redux/wishlistSlice';
 import { setProductWishlistStatus } from '../../redux/productSlice';
 import { addItemToCart } from '../../redux/cartSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product, loading }) => {
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
     const handleToggleWishlist = () => {
-        if(!loading){
-            if (product.isWishlisted) {
-                dispatch(removeFromWishlist(product.id));
-              } else {
-                dispatch(addToWishlist(product));
-              }
+        if (!loading) {
             dispatch(setProductWishlistStatus({ productId: product.id, isWishlisted: !product?.isWishlisted }));
+            let tempProduct={...product};
+            if (product.isWishlisted) {
+                // tempProduct.isWishlisted=false
+                dispatch(removeFromWishlist(tempProduct.id));
+            } else {
+                // let tempProduct=product;
+                tempProduct.isWishlisted=true
+                dispatch(addToWishlist(tempProduct));
+            }
         }
     };
-    const handleAddToCart=() => {
+    const handleAddToCart = () => {
+        
         dispatch(addItemToCart(product));
     }
     return (
         <div className={`flex items-start justify-center flex-col   group/product ${loading && 'animate-pulse'} `}>
-            <div className="bg-[#f5f6f6] w-full flex items-center justify-center p-4 relative ">
 
-                <img src={product?.image} alt="" className={`h-60 mix-blend-multiply group-hover/product:scale-105 delay-75 transition  `} />
+            <div className="bg-[#f5f6f6] w-full flex items-center justify-center p-4 relative ">
+                <Link to={`/product/${product?.id}`} className=''>
+
+                    <img src={product?.image} alt="" className={`h-60 mix-blend-multiply group-hover/product:scale-105 delay-75 transition  `} />
+                </Link>
                 <div className="absolute top-1 right-3 " onClick={handleToggleWishlist}>
                     {product?.isWishlisted ?
                         <BsHeartFill className='text-2xl text-red-900' /> :
                         <BsHeart className='text-2xl text-red-900' />
+
                     }
                 </div>
             </div>
@@ -55,8 +66,9 @@ const ProductCard = ({ product, loading }) => {
                     <span className='text-xs'>({product?.rating?.count})</span>
                 </div>
 
-                <div className="w-full flex  items-center justify-start gap-x-2">
-                    <button onClick={handleAddToCart} className="bg-green-900 text-white px-8 py-2 rounded-full hover:bg-green-700 transition">Add to Cart</button>
+                <div className="w-full flex  items-center justify-between gap-x-2">
+                    <button onClick={handleAddToCart} className="bg-green-900 text-white px-8 py-2 rounded-full hover:bg-green-700 transition">{product?.inCard ? 'Added to Card' : 'Add to Cart'}</button>
+                    <button onClick={() => navigate('/product/' + product?.id)} className="bg-white text-black px-8 py-2 rounded-full hover:bg-green-700 hover:text-white border border-green-800  transition">View Product</button>
                 </div>
 
             </div>
