@@ -1,13 +1,13 @@
 import React from 'react'
 import { AiFillShop, AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai'
-import { BsFillPersonFill } from 'react-icons/bs'
+import { BsFillPersonFill, BsHeartFill } from 'react-icons/bs'
 import { IoIosArrowDropdown } from 'react-icons/io'
-import { Badge, Box } from '@mui/material'
+import { Badge, Box, Tooltip } from '@mui/material'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 const Navbar = () => {
     const dispatch = useDispatch();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const cartLenght = useSelector((state) => state.cart.totalQuantity)
     return (
         <div className='w-full min-h-[60px] flex items-start justify-between px-4 py-4 max-w-[1300px] mx-auto'>
@@ -16,7 +16,7 @@ const Navbar = () => {
 
                     <div className='flex items-center gap-x-2'>
                         <AiFillShop className='text-4xl text-green-900' />
-                        <h1 className='text-2xl font-medium text-green-900'>Jabardast Dukan</h1>
+                        <h1 className='text-2xl font-medium text-green-900'>ECOM</h1>
                     </div>
                 </Link>
                 <ul className='hidden md:flex gap-x-5 items-end'>
@@ -47,6 +47,12 @@ const Navbar = () => {
                         <AiOutlineSearch />
                     </div>
                 </div>
+                <div className="flex items-center gap-x-2 text-lg cursor-pointer md:hidden" onClick={()=>navigate('/wishlist')}>
+                    <Tooltip title='Wishlist'>
+
+                        <BsHeartFill className='text-red-900' />
+                    </Tooltip>
+                </div>
                 <div className="flex items-center gap-x-2 text-lg cursor-pointer">
                     <BsFillPersonFill className='text-xl' />
                     <span className='hidden md:inline'>
@@ -55,7 +61,8 @@ const Navbar = () => {
                     </span>
                 </div>
 
-                <Box className="flex items-center gap-x-2 text-lg cursor-pointer" onClick={()=>navigate('/cart')}>
+                <Box className="flex items-center gap-x-2 text-lg cursor-pointer" onClick={() => navigate('/cart')}>
+
                     <Badge badgeContent={cartLenght} color="primary">
                         <AiOutlineShoppingCart className='text-xl' />
                     </Badge>

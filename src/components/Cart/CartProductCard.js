@@ -24,10 +24,10 @@ const CartProductCard = ({ product }) => {
         dispatch(removeItemFromCart(product.id))
     }
     return (
-        <div className='flex flex-col sm:flex-row gap-x-4 gap-y-3 items-start'>
+        <div className='flex flex-col sm:flex-row gap-x-4 gap-y-3 items-start bg-slate-100 p-2'>
             <div className=" ">
 
-                <img src={product.image} alt={product.title} className='w-20 h-20' />
+                <img src={product.image} alt={product.title} className='w-20 h-20 mix-blend-multiply' />
 
             </div>
             <div className="flex flex-col items-start justify-between h-full">

@@ -18,6 +18,8 @@ const ProductPage = () => {
     }
 
     useEffect(() => {
+        document.title = 'ECOM | Product Page'
+          
         getProduct()
     }, [])
     const handleCounterChange = (isDesc) => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CartProductCard from '../components/Cart/CartProductCard'
 
@@ -7,15 +7,18 @@ const CartPage = () => {
     const cartProducts = useSelector((state) => state.cart.items)
     const totalPrice = useSelector((state) => state.cart.totalPrice)
 
-
-    console.log(cartProducts)
+    useEffect(() => {
+        document.title = 'ECOM | Cart Page'
+      
+    }, [])
+    
     return (
         <div className='grid gap-8 p-4 relative'>
             <h1 className='text-5xl font-bold'>
                 Shopping Cart
             </h1>
             <div className="flex  gap-6  items-start ">
-                <div className="flex-[74%] grid gap-y-20">
+                <div className="flex-[74%] grid gap-y-4">
                     {cartProducts.length? cartProducts.map(product => (
                         <CartProductCard product={product} key={product?.id} />
                     )
